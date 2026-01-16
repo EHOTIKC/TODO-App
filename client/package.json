@@ -16,6 +16,9 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "@eslint/js": "^9.39.1",
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.5",
