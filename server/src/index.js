@@ -22,17 +22,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 if (process.env.NODE_ENV === "production") {
-  const clientPath = path.join(__dirname, "../../client/dist");
+  const clientPath = path.join(__dirname, "../client/dist");
+
   app.use(express.static(clientPath));
 
-  app.get("*", (req, res) => {
+  app.get(/^(?!\/api).*/, (req, res) => {
     res.sendFile(path.join(clientPath, "index.html"));
   });
-} else {
-  app.get("/", (req, res) => {
-    res.send("API is running");
-  });
 }
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
