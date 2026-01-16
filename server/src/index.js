@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
 import todoRoutes from "./routes/todo.routes.js";
@@ -14,11 +16,23 @@ app.use(express.json());
 
 connectDB();
 
-app.get("/", (req, res) => {
-  res.send("API is running");
-});
-
 app.use("/api/todos", todoRoutes);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+if (process.env.NODE_ENV === "production") {
+  const clientPath = path.join(__dirname, "../../client/dist");
+  app.use(express.static(clientPath));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(clientPath, "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running");
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

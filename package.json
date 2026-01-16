@@ -2,7 +2,11 @@
   "name": "todo_app",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\""
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "install-client": "cd client && npm install",
+    "build-client": "cd client && npm run build",
+    "start": "node server/src/index.js",
+    "postinstall": "npm run install-client && npm run build-client"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
