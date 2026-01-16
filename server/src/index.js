@@ -22,7 +22,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 if (process.env.NODE_ENV === "production") {
-  const clientPath = path.join(__dirname, "../client/dist");
+  const clientPath = path.resolve(__dirname, "../../client/dist");
 
   app.use(express.static(clientPath));
 
@@ -30,7 +30,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(clientPath, "index.html"));
   });
 }
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
