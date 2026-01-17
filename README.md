@@ -8,7 +8,7 @@ The goal of this project was not only to implement the required functionality, b
 
 ## 🚀 Live Demo
 
-🔗 **Deployed App:** https://todo-app-372q.onrender.com/ 
+🔗 **Deployed App:** https://todo-app-372q.onrender.com/
 🔗 **GitHub Repository:** https://github.com/EHOTIKC/TODO-App
 
 ---
