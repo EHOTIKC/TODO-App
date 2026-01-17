@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 import FilterBar from "./components/FilterBar";
+import SearchBar from "./components/SearchBar";
+import SortBar from "./components/SortBar";
 
 import {
   fetchTodos,
@@ -16,6 +18,9 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState("all"); 
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("none");
+
 
   useEffect(() => {
     async function loadTodos() {
@@ -98,23 +103,39 @@ function App() {
     }
   };
 
-  const filteredTodos = todos.filter(todo => {
-    if (filter === "all") return true;
+
+  const filteredTodos = todos
+  .filter(todo => {
     if (filter === "done") return todo.completed;
     if (filter === "undone") return !todo.completed;
     return true;
-  });
+  })
+  .filter(todo =>
+    todo.text.toLowerCase().includes(search.toLowerCase())
+  );
+
 
   if (loading) return <div className="p-6 text-xl text-gray-200">Loading...</div>;
+  const sortedTodos = [...filteredTodos];
 
+  if (sort === "asc") {
+    sortedTodos.sort((a, b) => a.priority - b.priority);
+  }
+
+  if (sort === "desc") {
+    sortedTodos.sort((a, b) => b.priority - a.priority);
+  }
   return (
+    
     <div className="min-h-screen bg-gray-900 p-6 flex justify-center">
       <div className="w-full max-w-2xl">
         <h1 className="text-3xl font-bold mb-6 text-gray-100 text-center">TODO App</h1>
         <TodoForm addTodo={addTodo} />
+        <SearchBar search={search} setSearch={setSearch} />
         <FilterBar filter={filter} setFilter={setFilter} />
+        <SortBar sort={sort} setSort={setSort} />
         <TodoList
-          todos={filteredTodos ?? []}
+          todos={sortedTodos}
           toggleDone={toggleDone}
           removeTodo={removeTodo}
           updatePriority={updatePriority}
